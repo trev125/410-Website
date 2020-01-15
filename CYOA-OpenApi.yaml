@@ -7,23 +7,23 @@ paths:
   /character:
     get:
       tags:
-      - "character"
-      summary: "Returns all the characters"
+      - 'character'
+      summary: 'Returns all the characters'
       responses:
         200:
-          description: "all of the characters"
+          description: 'all of the characters'
         400:
-          description: "Invalid request"
+          description: 'Invalid request'
   /character/{userID}:
     post:
       tags:
-      - "character"
-      summary: "Add a new character to a specific user"
-      description: "Add a new character to a specific user"
+      - 'character'
+      summary: 'Add a new character to a specific user'
+      description: 'Add a new character to a specific user'
       parameters: 
-      - name: "userID"
-        in: "path"
-        description: "ID of user who will own this character"
+      - name: 'userID'
+        in: 'path'
+        description: 'ID of user who will own this character'
         required: true
         schema:
           type: integer
@@ -50,24 +50,24 @@ paths:
                   type: number
       responses:
         201:
-          description: "Character created"
+          description: 'Character created'
         400:
-          description: "Invalid userID"
+          description: 'Invalid userID'
   /user:
     get:
       tags:
-      - "user"
-      summary: "Returns all the users"
+      - 'user'
+      summary: 'Returns all the users'
       responses:
         200:
-          description: "All of the users"
+          description: 'All of the users'
         400:
-          description: "Invalid status value"
+          description: 'Invalid status value'
     post:
       tags:
-      - "user"
-      summary: "Add a new user"
-      description: "Add a new user"
+      - 'user'
+      summary: 'Add a new user'
+      description: 'Add a new user'
       requestBody:
         required: true
         content:
@@ -87,18 +87,18 @@ paths:
                   type: number
       responses:
         201:
-          description: "User created"
+          description: 'User created'
         400:
-          description: "Invalid status value"
+          description: 'Invalid status value'
   /characters/{characterID}:
     get:
       tags:
-      - "character"
-      summary: "Returns a character by ID"
+      - 'character'
+      summary: 'Returns a character by ID'
       parameters: 
-      - name: "characterID"
-        in: "path"
-        description: "ID of character to return"
+      - name: 'characterID'
+        in: 'path'
+        description: 'ID of character to return'
         required: true
         schema:
           type: integer
@@ -106,18 +106,18 @@ paths:
           minimum: 1
       responses:
         200:
-          description: "All of the relevant info about the character"
+          description: 'All of the relevant info about the character'
         400:
-          description: "Invalid status value"
+          description: 'Invalid status value'
   /bag/{characterID}:
     get:
       tags:
-      - "character"
-      summary: "Returns the bag by character ID"
+      - 'character'
+      summary: 'Returns the bag by character ID'
       parameters: 
-      - name: "characterID"
-        in: "path"
-        description: "ID of character to return"
+      - name: 'characterID'
+        in: 'path'
+        description: 'ID of character to return'
         required: true
         schema:
           type: integer
@@ -125,27 +125,27 @@ paths:
           minimum: 1
       responses:
         200:
-          description: "All of the items the character has"
+          description: 'All of the items the character has'
         400:
-          description: "Invalid status value"
+          description: 'Invalid status value'
   /bag/{characterID}/{itemID}:
     post:
       tags:
-      - "character"
-      summary: "Add a new item to bag"
-      description: "Add a new item into the bag given the item ID and character ID"
+      - 'character'
+      summary: 'Add a new item to bag'
+      description: 'Add a new item into the bag given the item ID and character ID'
       parameters:
-      - name: "characterID"
-        in: "path"
-        description: "ID of character to give item"
+      - name: 'characterID'
+        in: 'path'
+        description: 'ID of character to give item'
         required: true
         schema:
           type: integer
           format: int64
           minimum: 1
-      - name: "itemID"
-        in: "path"
-        description: "ID of item to give character"
+      - name: 'itemID'
+        in: 'path'
+        description: 'ID of item to give character'
         required: true
         schema:
           type: integer
@@ -164,24 +164,24 @@ paths:
                   type: number
       responses:
         201:
-          description: "Item added to character bag"
+          description: 'Item added to character bag'
         400:
-          description: "Invalid status value"
+          description: 'Invalid status value'
   /questions:
     get:
       tags:
-      - "question"
-      summary: "Returns all the questions"
+      - 'question'
+      summary: 'Returns all the questions'
       responses:
         200:
-          description: "all of the questions"
+          description: 'all of the questions'
         400:
-          description: "Invalid status value"
+          description: 'Invalid status value'
     post:
       tags:
-      - "question"
-      summary: "Add a new question"
-      description: "Add a new question"
+      - 'question'
+      summary: 'Add a new question'
+      description: 'Add a new question'
       requestBody:
         required: true
         content:
@@ -193,24 +193,24 @@ paths:
                   type: string
       responses:
         201:
-          description: "Question created"
+          description: 'Question created'
         400:
-          description: "Invalid status value"
+          description: 'Invalid status value'
   /answerItems:
     get:
       tags:
-      - "answer"
-      summary: "Returns all the answers"
+      - 'answer'
+      summary: 'Returns all the answers and items'
       responses:
         200:
-          description: "all of the answers"
+          description: 'All of the answers and items'
         400:
-          description: "Invalid status value"
+          description: 'Invalid status value'
     post:
       tags:
-      - "answer"
-      summary: "Add a new answer"
-      description: "Add a new answer"
+      - 'answer'
+      summary: 'Add a new answer or question'
+      description: 'Add a new answer or question'
       requestBody:
         required: true
         content:
@@ -226,9 +226,9 @@ paths:
                   type: number
       responses:
         201:
-          description: "Question created"
+          description: 'Answer/Item created'
         400:
-          description: "Invalid status value"
+          description: 'Invalid status value'
 
 
 
