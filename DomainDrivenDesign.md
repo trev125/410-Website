@@ -38,12 +38,15 @@
     id (number)
     question (string)
     
-- Answers/Items
+- Answers
     id (number)
     answer (string)
-    item (string)
     question (number)
 
+- Items 
+    id (number)
+    item (string)
+    question (number)
 
 ## Define Value Objects
 Not sure I have any?
