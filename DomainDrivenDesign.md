@@ -47,6 +47,11 @@
     id (number)
     item (string)
     question (number)
+    strengthBuff (number)
+    dexBuff (number)
+    speechBuff (number)
+    intelBuff (number)
+    key (bool)
 
 ## Define Value Objects
 Not sure I have any?

@@ -196,21 +196,51 @@ paths:
           description: 'Question created'
         400:
           description: 'Invalid status value'
-  /answerItems:
+  /answer:
     get:
       tags:
       - 'answer'
-      summary: 'Returns all the answers and items'
+      summary: 'Returns all the answers'
       responses:
         200:
-          description: 'All of the answers and items'
+          description: 'All of the answers'
+        400:
+          description: 'Invalid status value'
+  /answer/{questionID}:
+    post:
+      tags:
+      - 'answer'
+      summary: 'Add a new answer to a question'
+      description: 'Add a new answer to a question'
+      parameters: 
+      - name: 'questionID'
+        in: 'path'
+        description: 'ID of question that will have this answer as an option'
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+      responses:
+        201:
+          description: 'Question created'
+        400:
+          description: 'Invalid questionID'
+  /item:
+    get:
+      tags:
+      - 'item'
+      summary: 'Returns all the items'
+      responses:
+        200:
+          description: 'All of the items'
         400:
           description: 'Invalid status value'
     post:
       tags:
-      - 'answer'
-      summary: 'Add a new answer or question'
-      description: 'Add a new answer or question'
+      - 'item'
+      summary: 'Add a new item'
+      description: 'Add a new item'
       requestBody:
         required: true
         content:
@@ -218,17 +248,25 @@ paths:
             schema:
               type: object
               properties:
-                answer:
-                  type: string
                 item:
                   type: string
                 question:
                   type: number
+                strengthBuff:
+                  type: number
+                dexBuff:
+                  type: number
+                speechBuff:
+                  type: number
+                intelBuff:
+                  type: number
+                key:
+                  type: boolean
       responses:
         201:
-          description: 'Answer/Item created'
+          description: 'item created'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid questionID'
 
 
 
