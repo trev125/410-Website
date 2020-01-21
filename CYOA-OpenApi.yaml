@@ -14,6 +14,57 @@ paths:
           description: 'all of the characters'
         400:
           description: 'Invalid request'
+  /character/{characterID}:
+    parameters: 
+      - name: 'characterID'
+        in: 'path'
+        description: 'ID of character to return'
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+    get:
+      tags:
+      - 'character'
+      summary: 'Returns a character by ID'
+      responses:
+        200:
+          description: 'All of the relevant info about the character'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'character'
+      summary: 'Updates a character by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userID:
+                  type: number
+                name:
+                  type: string
+                strength:
+                  type: number
+                dexterity:
+                  type: number
+                speech:
+                  type: number
+                intelligence:
+                  type: number
+      responses:
+        200:
+          description: 'All of the relevant info about the character'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        400:
+          description: 'Invalid status value'
   /character/{userID}:
     post:
       tags:
@@ -51,6 +102,13 @@ paths:
       responses:
         201:
           description: 'Character created'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
         400:
           description: 'Invalid userID'
   /user:
@@ -88,31 +146,19 @@ paths:
       responses:
         201:
           description: 'User created'
-        400:
-          description: 'Invalid status value'
-  /characters/{characterID}:
-    get:
-      tags:
-      - 'character'
-      summary: 'Returns a character by ID'
-      parameters: 
-      - name: 'characterID'
-        in: 'path'
-        description: 'ID of character to return'
-        required: true
-        schema:
-          type: integer
-          format: int64
-          minimum: 1
-      responses:
-        200:
-          description: 'All of the relevant info about the character'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         400:
           description: 'Invalid status value'
   /bag/{characterID}:
     get:
       tags:
-      - 'character'
+      - 'bag'
       summary: 'Returns the bag by character ID'
       parameters: 
       - name: 'characterID'
@@ -131,7 +177,7 @@ paths:
   /bag/{characterID}/{itemID}:
     post:
       tags:
-      - 'character'
+      - 'bag'
       summary: 'Add a new item to bag'
       description: 'Add a new item into the bag given the item ID and character ID'
       parameters:
@@ -165,6 +211,13 @@ paths:
       responses:
         201:
           description: 'Item added to character bag'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bag'
         400:
           description: 'Invalid status value'
   /questions:
@@ -194,6 +247,13 @@ paths:
       responses:
         201:
           description: 'Question created'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
         400:
           description: 'Invalid status value'
   /answer:
@@ -204,6 +264,13 @@ paths:
       responses:
         200:
           description: 'All of the answers'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
         400:
           description: 'Invalid status value'
   /answer/{questionID}:
@@ -265,21 +332,258 @@ paths:
       responses:
         201:
           description: 'item created'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
         400:
           description: 'Invalid questionID'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+components:
+  parameters:
+    ChannelId:
+      name: channelId
+      in: path
+      required: true
+      schema:
+        type: string
+    ChannelFieldsets:
+      name: fieldsets
+      in: query
+      schema:
+        type: array
+        default: ['basic']
+        items:
+          type: string
+          enum:
+            - basic
+            - metadata
+    CommentId:
+      name: commentId
+      in: path
+      required: true
+      schema:
+        type: string
+    EndDate:
+      name: endDate
+      in: query
+      schema:
+        type: string
+        format: date-time
+    MemberId:
+      name: memberId
+      in: path
+      required: true
+      schema:
+        type: string
+    MessageId:
+      name: messageId
+      in: path
+      required: true
+      schema:
+        type: string
+    MessageFieldsets:
+      name: fieldsets
+      in: query
+      schema:
+        type: array
+        default: ['basic']
+        items:
+          type: string
+          enum:
+            - basic
+            - comments
+    StartDate:
+      name: startDate
+      in: query
+      schema:
+        type: string
+        format: date-time
+  headers:
+    PostLocation:
+      description: The URL to retrieve the created resource from.
+      schema:
+        type: string
+  requestBodies:
+    Channel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Channel'
+    Message:
+      content:
+        application/json:
+          schema:
+            type: string
+    UserLogin:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserLogin'
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - password
+        - name
+        - currentQuestion
+        - character
+      properties:
+        id:
+          description: A unique identifier.
+          type: string
+        email:
+          description: The user's email
+          type: string
+        password:
+          description: The hashed password
+          type: string
+        name:
+          description: The user's name
+          type: string
+        currentQuestion:
+          description: The current question the user's character is on
+          type: number
+        character:
+          description: The ID of the character the user makes
+          type: number
+          default: null
+    Character:
+      type: object
+      required:
+        - id
+        - userId
+        - name
+        - strength
+        - dexterity
+        - speech
+        - intelligence
+      properties:
+        id:
+          description: A unique identifier.
+          type: number
+        userId:
+          description: The user's id that owns this character
+          type: number
+        name:
+          description: The name of the character
+          type: string
+        strength:
+          description: The character's strength attribute
+          type: number
+          default: 0
+        dexterity:
+          description: The character's dexterity attribute
+          type: number
+          default: 0
+        speech:
+          description: The character's speech attribute
+          type: number
+          default: 0
+        intelligence:
+          description: The character's intelligence attribute
+          type: number
+          default: 0
+    Bag:
+      type: object
+      required:
+        - id
+        - characterId
+        - itemId
+      properties:
+        id:
+          description: A unique identifier
+          type: number
+        characterId:
+          description: The ID of the character who has this item
+          type: number
+        itemId:
+          description: The ID of the item that the character has
+          type: number
+    Question:
+      type: object
+      required:
+        - id
+        - questionText
+      properties:
+        id:
+          description: A unique identifier
+          type: number
+        questionText:
+          description: The text of the question
+          type: string
+    Answer:
+      type: object
+      required:
+        - id
+        - answer
+        - question
+      properties:
+        id:
+          description: A unique identifier
+          type: number
+        answer:
+          description: The answer text
+          type: string
+        question:
+          description: The question this answer relates to
+          type: number
+    Item:
+      type: object
+      required:
+        - id
+        - item
+        - question
+        - strengthBuff
+        - dexterityBuff
+        - speechBuff
+        - intelligenceBuff
+        - key
+      properties:
+        id:
+          description: A unique identifier.
+          type: number
+        item:
+          description: The item's name
+          type: string
+        question:
+          description: The question this item is related to
+          type: number
+        strengthBuff:
+          description: The strength buff for the item
+          type: number
+          default: 0
+        dexterityBuff:
+          description: The dexterity buff for the item
+          type: number
+          default: 0
+        speechBuff:
+          description: The speech buff for the item
+          type: number
+          default: 0
+        intelligenceBuff:
+          description: The intelligence buff for the item
+          type: number
+          default: 0
+        key:
+          description: Tell if the item is a key or not
+          type: boolean
+          default: false
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
