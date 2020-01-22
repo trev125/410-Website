@@ -18,7 +18,7 @@ paths:
     parameters: 
       - name: 'characterID'
         in: 'path'
-        description: 'ID of character to return'
+        description: 'ID of character'
         required: true
         schema:
           type: integer
@@ -63,6 +63,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
+        400:
+          description: 'Invalid status value'
+    delete:
+      tags:
+      - 'character'
+      summary: 'Deletes a character by ID'
+      responses:
+        200:
+          description: 'All of the relevant info about the character'
         400:
           description: 'Invalid status value'
   /character/{userID}:
@@ -155,6 +164,61 @@ paths:
                 $ref: '#/components/schemas/User'
         400:
           description: 'Invalid status value'
+  /user/{userID}:
+    parameters: 
+    - name: 'userID'
+      in: 'path'
+      description: 'ID of user that you want'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    get:
+      tags:
+      - 'user'
+      summary: 'get information about a specific user'
+      description: 'get information about a specific user'
+      responses:
+        201:
+          description: 'user returned'
+        400:
+          description: 'Invalid userID'
+    delete:
+      tags:
+      - 'user'
+      summary: 'Deletes a user'
+      responses:
+        200:
+          description: 'You deleted the user'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'user'
+      summary: 'Updates an user by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                name:
+                  type: string
+                currentQuestion:
+                  type: number
+                characterID:
+                  type: number
+      responses:
+        200:
+          description: 'You updated the user'
+        400:
+          description: 'Invalid status value'
   /bag/{characterID}:
     get:
       tags:
@@ -175,28 +239,28 @@ paths:
         400:
           description: 'Invalid status value'
   /bag/{characterID}/{itemID}:
+    parameters:
+    - name: 'characterID'
+      in: 'path'
+      description: 'ID of character to give item'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    - name: 'itemID'
+      in: 'path'
+      description: 'ID of item to give character'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
     post:
       tags:
       - 'bag'
       summary: 'Add a new item to bag'
       description: 'Add a new item into the bag given the item ID and character ID'
-      parameters:
-      - name: 'characterID'
-        in: 'path'
-        description: 'ID of character to give item'
-        required: true
-        schema:
-          type: integer
-          format: int64
-          minimum: 1
-      - name: 'itemID'
-        in: 'path'
-        description: 'ID of item to give character'
-        required: true
-        schema:
-          type: integer
-          format: int64
-          minimum: 1
       requestBody:
         required: true
         content:
@@ -218,6 +282,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Bag'
+        400:
+          description: 'Invalid status value'
+    delete:
+      tags:
+      - 'bag'
+      summary: 'Deletes a item from a bag by character and item id'
+      responses:
+        200:
+          description: 'You deleted the item'
         400:
           description: 'Invalid status value'
   /questions:
@@ -254,6 +327,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Question'
+        400:
+          description: 'Invalid status value'
+  /questions/{questionID}:
+    parameters:
+    - name: 'questionID'
+      in: 'path'
+      description: 'ID of question to delete'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    delete:
+      tags:
+      - 'question'
+      summary: 'Deletes a question'
+      responses:
+        200:
+          description: 'You deleted the question'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'question'
+      summary: 'Updates an question by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questionID:
+                  type: number
+                questionText:
+                  type: string
+      responses:
+        200:
+          description: 'You updated the question'
         400:
           description: 'Invalid status value'
   /answer:
@@ -293,6 +405,45 @@ paths:
           description: 'Question created'
         400:
           description: 'Invalid questionID'
+  /answer/{answerID}:
+    parameters:
+    - name: 'answerID'
+      in: 'path'
+      description: 'ID of answer'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    delete:
+      tags:
+      - 'answer'
+      summary: 'Deletes an answer'
+      responses:
+        200:
+          description: 'You deleted the question'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'answer'
+      summary: 'Updates an answer by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answerID:
+                  type: number
+                answer:
+                  type: string
+      responses:
+        200:
+          description: 'You updated the answer'
+        400:
+          description: 'Invalid status value'
   /item:
     get:
       tags:
@@ -341,87 +492,61 @@ paths:
                 $ref: '#/components/schemas/Item'
         400:
           description: 'Invalid questionID'
+  /item{itemID}:
+    parameters:
+    - name: 'itemID'
+      in: 'path'
+      description: 'ID of item'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    delete:
+      tags:
+      - 'item'
+      summary: 'Deletes an item'
+      responses:
+        200:
+          description: 'You deleted the item'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'item'
+      summary: 'Updates an item by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item:
+                  type: string
+                question:
+                  type: number
+                strengthBuff:
+                  type: number
+                dexBuff:
+                  type: number
+                speechBuff:
+                  type: number
+                intelBuff:
+                  type: number
+                key:
+                  type: boolean
+      responses:
+        200:
+          description: 'You updated the answer'
+        400:
+          description: 'Invalid status value'
 components:
-  parameters:
-    ChannelId:
-      name: channelId
-      in: path
-      required: true
-      schema:
-        type: string
-    ChannelFieldsets:
-      name: fieldsets
-      in: query
-      schema:
-        type: array
-        default: ['basic']
-        items:
-          type: string
-          enum:
-            - basic
-            - metadata
-    CommentId:
-      name: commentId
-      in: path
-      required: true
-      schema:
-        type: string
-    EndDate:
-      name: endDate
-      in: query
-      schema:
-        type: string
-        format: date-time
-    MemberId:
-      name: memberId
-      in: path
-      required: true
-      schema:
-        type: string
-    MessageId:
-      name: messageId
-      in: path
-      required: true
-      schema:
-        type: string
-    MessageFieldsets:
-      name: fieldsets
-      in: query
-      schema:
-        type: array
-        default: ['basic']
-        items:
-          type: string
-          enum:
-            - basic
-            - comments
-    StartDate:
-      name: startDate
-      in: query
-      schema:
-        type: string
-        format: date-time
   headers:
     PostLocation:
       description: The URL to retrieve the created resource from.
       schema:
         type: string
-  requestBodies:
-    Channel:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Channel'
-    Message:
-      content:
-        application/json:
-          schema:
-            type: string
-    UserLogin:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserLogin'
   schemas:
     User:
       type: object
