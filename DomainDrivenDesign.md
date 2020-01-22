@@ -5,19 +5,18 @@
 - User made decision
 - User made decision that upgrades stats
 - User picked up item
-- Uploaded an image
 
 ## Define Commands
 - Login/Create an account
 - Ctreate a character
 - Make decision
 - Obtains item
-- Changes characters image
 
 ## Define Entities
 - User 
     id (number)
     email (string)
+    password (string)
     name (string)
     currentQuestion (number)
     character (number)
@@ -30,6 +29,11 @@
     intel (number)
     otherAttrb (number)
     
+- Bag
+    id (number)
+    characterID (number)
+    itemID (number)
+    
 - Questions
     id (number)
     question (string)
@@ -39,5 +43,15 @@
     answer (string)
     question (number)
 
+- Items 
+    id (number)
+    item (string)
+    question (number)
+    strengthBuff (number)
+    dexBuff (number)
+    speechBuff (number)
+    intelBuff (number)
+    key (bool)
 
 ## Define Value Objects
+Not sure I have any?

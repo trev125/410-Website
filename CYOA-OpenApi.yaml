@@ -1,0 +1,714 @@
+openapi: '3.0.2'
+info:
+  title: 'Choose Your Own Adventure'
+  description: 'This is the API doc for the choose your own adventure game that will be made for IT&C-410'
+  version: '1.0.0' # Major, Minor, Patch
+paths:
+  /character:
+    get:
+      tags:
+      - 'character'
+      summary: 'Returns all the characters'
+      responses:
+        200:
+          description: 'all of the characters'
+        400:
+          description: 'Invalid request'
+  /character/{characterID}:
+    parameters: 
+      - name: 'characterID'
+        in: 'path'
+        description: 'ID of character'
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+    get:
+      tags:
+      - 'character'
+      summary: 'Returns a character by ID'
+      responses:
+        200:
+          description: 'All of the relevant info about the character'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'character'
+      summary: 'Updates a character by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userID:
+                  type: number
+                name:
+                  type: string
+                strength:
+                  type: number
+                dexterity:
+                  type: number
+                speech:
+                  type: number
+                intelligence:
+                  type: number
+      responses:
+        200:
+          description: 'All of the relevant info about the character'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        400:
+          description: 'Invalid status value'
+    delete:
+      tags:
+      - 'character'
+      summary: 'Deletes a character by ID'
+      responses:
+        200:
+          description: 'All of the relevant info about the character'
+        400:
+          description: 'Invalid status value'
+  /character/{userID}:
+    post:
+      tags:
+      - 'character'
+      summary: 'Add a new character to a specific user'
+      description: 'Add a new character to a specific user'
+      parameters: 
+      - name: 'userID'
+        in: 'path'
+        description: 'ID of user who will own this character'
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userID:
+                  type: number
+                name:
+                  type: string
+                strength:
+                  type: number
+                dexterity:
+                  type: number
+                speech:
+                  type: number
+                intelligence:
+                  type: number
+      responses:
+        201:
+          description: 'Character created'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
+        400:
+          description: 'Invalid userID'
+  /user:
+    get:
+      tags:
+      - 'user'
+      summary: 'Returns all the users'
+      responses:
+        200:
+          description: 'All of the users'
+        400:
+          description: 'Invalid status value'
+    post:
+      tags:
+      - 'user'
+      summary: 'Add a new user'
+      description: 'Add a new user'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                name:
+                  type: string
+                currentQuestion:
+                  type: number
+                characterID:
+                  type: number
+      responses:
+        201:
+          description: 'User created'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: 'Invalid status value'
+  /user/{userID}:
+    parameters: 
+    - name: 'userID'
+      in: 'path'
+      description: 'ID of user that you want'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    get:
+      tags:
+      - 'user'
+      summary: 'get information about a specific user'
+      description: 'get information about a specific user'
+      responses:
+        201:
+          description: 'user returned'
+        400:
+          description: 'Invalid userID'
+    delete:
+      tags:
+      - 'user'
+      summary: 'Deletes a user'
+      responses:
+        200:
+          description: 'You deleted the user'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'user'
+      summary: 'Updates an user by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                name:
+                  type: string
+                currentQuestion:
+                  type: number
+                characterID:
+                  type: number
+      responses:
+        200:
+          description: 'You updated the user'
+        400:
+          description: 'Invalid status value'
+  /bag/{characterID}:
+    get:
+      tags:
+      - 'bag'
+      summary: 'Returns the bag by character ID'
+      parameters: 
+      - name: 'characterID'
+        in: 'path'
+        description: 'ID of character to return'
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+      responses:
+        200:
+          description: 'All of the items the character has'
+        400:
+          description: 'Invalid status value'
+  /bag/{characterID}/{itemID}:
+    parameters:
+    - name: 'characterID'
+      in: 'path'
+      description: 'ID of character to give item'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    - name: 'itemID'
+      in: 'path'
+      description: 'ID of item to give character'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    post:
+      tags:
+      - 'bag'
+      summary: 'Add a new item to bag'
+      description: 'Add a new item into the bag given the item ID and character ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                character:
+                  type: number
+                item:
+                  type: number
+      responses:
+        201:
+          description: 'Item added to character bag'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bag'
+        400:
+          description: 'Invalid status value'
+    delete:
+      tags:
+      - 'bag'
+      summary: 'Deletes a item from a bag by character and item id'
+      responses:
+        200:
+          description: 'You deleted the item'
+        400:
+          description: 'Invalid status value'
+  /questions:
+    get:
+      tags:
+      - 'question'
+      summary: 'Returns all the questions'
+      responses:
+        200:
+          description: 'all of the questions'
+        400:
+          description: 'Invalid status value'
+    post:
+      tags:
+      - 'question'
+      summary: 'Add a new question'
+      description: 'Add a new question'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+      responses:
+        201:
+          description: 'Question created'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
+        400:
+          description: 'Invalid status value'
+  /questions/{questionID}:
+    parameters:
+    - name: 'questionID'
+      in: 'path'
+      description: 'ID of question to delete'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    delete:
+      tags:
+      - 'question'
+      summary: 'Deletes a question'
+      responses:
+        200:
+          description: 'You deleted the question'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'question'
+      summary: 'Updates an question by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questionID:
+                  type: number
+                questionText:
+                  type: string
+      responses:
+        200:
+          description: 'You updated the question'
+        400:
+          description: 'Invalid status value'
+  /answer:
+    get:
+      tags:
+      - 'answer'
+      summary: 'Returns all the answers'
+      responses:
+        200:
+          description: 'All of the answers'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Answer'
+        400:
+          description: 'Invalid status value'
+  /answer/{questionID}:
+    post:
+      tags:
+      - 'answer'
+      summary: 'Add a new answer to a question'
+      description: 'Add a new answer to a question'
+      parameters: 
+      - name: 'questionID'
+        in: 'path'
+        description: 'ID of question that will have this answer as an option'
+        required: true
+        schema:
+          type: integer
+          format: int64
+          minimum: 1
+      responses:
+        201:
+          description: 'Question created'
+        400:
+          description: 'Invalid questionID'
+  /answer/{answerID}:
+    parameters:
+    - name: 'answerID'
+      in: 'path'
+      description: 'ID of answer'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    delete:
+      tags:
+      - 'answer'
+      summary: 'Deletes an answer'
+      responses:
+        200:
+          description: 'You deleted the question'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'answer'
+      summary: 'Updates an answer by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answerID:
+                  type: number
+                answer:
+                  type: string
+      responses:
+        200:
+          description: 'You updated the answer'
+        400:
+          description: 'Invalid status value'
+  /item:
+    get:
+      tags:
+      - 'item'
+      summary: 'Returns all the items'
+      responses:
+        200:
+          description: 'All of the items'
+        400:
+          description: 'Invalid status value'
+    post:
+      tags:
+      - 'item'
+      summary: 'Add a new item'
+      description: 'Add a new item'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item:
+                  type: string
+                question:
+                  type: number
+                strengthBuff:
+                  type: number
+                dexBuff:
+                  type: number
+                speechBuff:
+                  type: number
+                intelBuff:
+                  type: number
+                key:
+                  type: boolean
+      responses:
+        201:
+          description: 'item created'
+          headers:
+            Location:
+              $ref: '#/components/headers/PostLocation'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        400:
+          description: 'Invalid questionID'
+  /item{itemID}:
+    parameters:
+    - name: 'itemID'
+      in: 'path'
+      description: 'ID of item'
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+    delete:
+      tags:
+      - 'item'
+      summary: 'Deletes an item'
+      responses:
+        200:
+          description: 'You deleted the item'
+        400:
+          description: 'Invalid status value'
+    put:
+      tags:
+      - 'item'
+      summary: 'Updates an item by ID'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item:
+                  type: string
+                question:
+                  type: number
+                strengthBuff:
+                  type: number
+                dexBuff:
+                  type: number
+                speechBuff:
+                  type: number
+                intelBuff:
+                  type: number
+                key:
+                  type: boolean
+      responses:
+        200:
+          description: 'You updated the answer'
+        400:
+          description: 'Invalid status value'
+components:
+  headers:
+    PostLocation:
+      description: The URL to retrieve the created resource from.
+      schema:
+        type: string
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - password
+        - name
+        - currentQuestion
+        - character
+      properties:
+        id:
+          description: A unique identifier.
+          type: string
+        email:
+          description: The user's email
+          type: string
+        password:
+          description: The hashed password
+          type: string
+        name:
+          description: The user's name
+          type: string
+        currentQuestion:
+          description: The current question the user's character is on
+          type: number
+        character:
+          description: The ID of the character the user makes
+          type: number
+          default: null
+    Character:
+      type: object
+      required:
+        - id
+        - userId
+        - name
+        - strength
+        - dexterity
+        - speech
+        - intelligence
+      properties:
+        id:
+          description: A unique identifier.
+          type: number
+        userId:
+          description: The user's id that owns this character
+          type: number
+        name:
+          description: The name of the character
+          type: string
+        strength:
+          description: The character's strength attribute
+          type: number
+          default: 0
+        dexterity:
+          description: The character's dexterity attribute
+          type: number
+          default: 0
+        speech:
+          description: The character's speech attribute
+          type: number
+          default: 0
+        intelligence:
+          description: The character's intelligence attribute
+          type: number
+          default: 0
+    Bag:
+      type: object
+      required:
+        - id
+        - characterId
+        - itemId
+      properties:
+        id:
+          description: A unique identifier
+          type: number
+        characterId:
+          description: The ID of the character who has this item
+          type: number
+        itemId:
+          description: The ID of the item that the character has
+          type: number
+    Question:
+      type: object
+      required:
+        - id
+        - questionText
+      properties:
+        id:
+          description: A unique identifier
+          type: number
+        questionText:
+          description: The text of the question
+          type: string
+    Answer:
+      type: object
+      required:
+        - id
+        - answer
+        - question
+      properties:
+        id:
+          description: A unique identifier
+          type: number
+        answer:
+          description: The answer text
+          type: string
+        question:
+          description: The question this answer relates to
+          type: number
+    Item:
+      type: object
+      required:
+        - id
+        - item
+        - question
+        - strengthBuff
+        - dexterityBuff
+        - speechBuff
+        - intelligenceBuff
+        - key
+      properties:
+        id:
+          description: A unique identifier.
+          type: number
+        item:
+          description: The item's name
+          type: string
+        question:
+          description: The question this item is related to
+          type: number
+        strengthBuff:
+          description: The strength buff for the item
+          type: number
+          default: 0
+        dexterityBuff:
+          description: The dexterity buff for the item
+          type: number
+          default: 0
+        speechBuff:
+          description: The speech buff for the item
+          type: number
+          default: 0
+        intelligenceBuff:
+          description: The intelligence buff for the item
+          type: number
+          default: 0
+        key:
+          description: Tell if the item is a key or not
+          type: boolean
+          default: false
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
