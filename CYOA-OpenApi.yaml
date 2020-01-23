@@ -238,7 +238,7 @@ paths:
           description: 'All of the items the character has'
         400:
           description: 'Invalid status value'
-  /bag/{characterID}/{itemID}:
+  /bag/{characterID}/item/{itemID}:
     parameters:
     - name: 'characterID'
       in: 'path'
@@ -492,7 +492,7 @@ paths:
                 $ref: '#/components/schemas/Item'
         400:
           description: 'Invalid questionID'
-  /item{itemID}:
+  /item/{itemID}:
     parameters:
     - name: 'itemID'
       in: 'path'
@@ -698,17 +698,3 @@ components:
           description: Tell if the item is a key or not
           type: boolean
           default: false
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
