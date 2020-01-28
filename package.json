@@ -1,0 +1,19 @@
+{
+  "name": "410-website",
+  "version": "1.0.0",
+  "description": "Website for the IT-410 project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trev125/410-Website.git"
+  },
+  "author": "Trevor Allen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trev125/410-Website/issues"
+  },
+  "homepage": "https://github.com/trev125/410-Website#readme"
+}
