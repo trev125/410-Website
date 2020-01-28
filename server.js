@@ -15,11 +15,13 @@ enforcer.promise.catch(console.error)
 
 // Add mocking middleware to the enforcer middleware.
 // This middleware will handle explicit mock requests.
+
 // enforcer.mocks(mockDirectory,false)
 //   .catch(console.error)
 
 // Add controller middleware to the enforcer middleware .
 // This middleware will handle requests for real data.
+
 // enforcer.controllers(controllerDirectory)
 //   .catch(console.error)
 
