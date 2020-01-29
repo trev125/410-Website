@@ -627,7 +627,9 @@ components:
       properties:
         id:
           description: A unique identifier.
-          type: string
+          type: integer
+          format: int64
+          minimum: 1
         email:
           description: The user's email
           type: string
@@ -639,10 +641,14 @@ components:
           type: string
         currentQuestion:
           description: The current question the user's character is on
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         character:
           description: The ID of the character the user makes
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
     Character:
       type: object
       required:
@@ -656,29 +662,37 @@ components:
       properties:
         id:
           description: A unique identifier.
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         userId:
           description: The user's id that owns this character
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         name:
           description: The name of the character
           type: string
         strength:
           description: The character's strength attribute
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         dexterity:
           description: The character's dexterity attribute
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         speech:
           description: The character's speech attribute
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         intelligence:
           description: The character's intelligence attribute
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
     Bag:
       type: object
       required:
@@ -688,13 +702,19 @@ components:
       properties:
         id:
           description: A unique identifier
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         characterId:
           description: The ID of the character who has this item
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         itemId:
           description: The ID of the item that the character has
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
     Question:
       type: object
       required:
@@ -703,7 +723,9 @@ components:
       properties:
         id:
           description: A unique identifier
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         questionText:
           description: The text of the question
           type: string
@@ -716,13 +738,17 @@ components:
       properties:
         id:
           description: A unique identifier
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         answer:
           description: The answer text
           type: string
         question:
           description: The question this answer relates to
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
     Item:
       type: object
       required:
@@ -737,29 +763,37 @@ components:
       properties:
         id:
           description: A unique identifier.
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         item:
           description: The item's name
           type: string
         question:
           description: The question this item is related to
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         strengthBuff:
           description: The strength buff for the item
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         dexterityBuff:
           description: The dexterity buff for the item
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         speechBuff:
           description: The speech buff for the item
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         intelligenceBuff:
           description: The intelligence buff for the item
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         key:
           description: Tell if the item is a key or not
           type: boolean

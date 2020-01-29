@@ -13,6 +13,24 @@ const pathToOpenApiDoc = path.resolve(__dirname, 'app/CYOA-OpenApi.yaml')
 const enforcer = EnforcerMiddleware(pathToOpenApiDoc)
 enforcer.promise.catch(console.error)
 
+app.use(function (req, res, next) {
+  console.log('I have recieved a request')
+  console.log(req.method, req.path)
+  next()
+})
+
+app.all('/character', (req, res, next) => {
+  req.test = 'hello there'
+  console.log('I edited the request', req.test)
+  next()
+})
+
+app.get('/character', (req, res, next) => {
+  console.log('I am accessing the edited stuff in the route', req.test)
+  //res.send(req.test)
+  next()
+})
+
 // Add mocking middleware to the enforcer middleware.
 // This middleware will handle explicit mock requests.
 
