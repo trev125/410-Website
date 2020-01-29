@@ -1,0 +1,37 @@
+const express = require('express') //Import the library
+const app = express() //create the server locally
+const port = 3000//give it a port
+const Enforcer = require('openapi-enforcer-middleware')
+const path = require('path')
+
+//In the home directory ('/'), create an anonymous arrow function, essentially the same as below
+/*
+    app.get('/', function (req,res){
+        res.send('Hello World')
+    })
+*/
+const enforcer = Enforcer('/app/CYOA-OpenApi.yaml')
+
+enforcer.controllers('/app/controllers').catch(console.error)
+
+app.all('/', (req, res, next) => {
+    console.log('I have recieved a request')
+    next()
+})
+
+app.use(express.raw())
+
+app.get('/', (req, res) => res.send('Hello World!'))
+
+app.post('/', (req, res, next) => {
+    const body = req.body
+    res.send(body)
+})
+
+// const wwwDir = path.resolve(__dirname, 'www')
+// app.use(express.static(wwwDir))
+
+app.use(express.static(__dirname))
+
+// As soon as you are listening on that port, send a call back funciton
+app.listen(port, () => console.log(`Example app listening on port ${port}!`))

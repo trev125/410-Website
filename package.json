@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/trev125/410-Website/issues"
   },
-  "homepage": "https://github.com/trev125/410-Website#readme"
+  "homepage": "https://github.com/trev125/410-Website#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "openapi-enforcer": "^1.8.2",
+    "openapi-enforcer-middleware": "^1.2.2"
+  }
 }

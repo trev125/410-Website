@@ -5,16 +5,23 @@ info:
   version: '1.0.0' # Major, Minor, Patch
 paths:
   /character:
+    x-controller: character
     get:
+      x-operation: getAllCharacter
       tags:
       - 'character'
       summary: 'Returns all the characters'
       responses:
         200:
-          description: 'all of the characters'
+          description: 'Return all of the characters'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
         400:
           description: 'Invalid request'
   /character/{characterID}:
+    x-controller: character
     parameters: 
       - name: 'characterID'
         in: 'path'
@@ -25,15 +32,21 @@ paths:
           format: int64
           minimum: 1
     get:
+      x-operation: getOneCharacter
       tags:
       - 'character'
       summary: 'Returns a character by ID'
       responses:
         200:
           description: 'All of the relevant info about the character'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Character'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid character'
     put:
+      x-operation: updateOneCharacter
       tags:
       - 'character'
       summary: 'Updates a character by ID'
@@ -58,24 +71,27 @@ paths:
                   type: number
       responses:
         200:
-          description: 'All of the relevant info about the character'
+          description: 'Character has been updated'
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Character'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
     delete:
+      x-operation: deleteOneCharacter
       tags:
       - 'character'
       summary: 'Deletes a character by ID'
       responses:
         200:
-          description: 'All of the relevant info about the character'
+          description: 'Character deleted'
         400:
-          description: 'Invalid status value'
-  /character/{userID}:
+          description: 'Invalid'
+  /character/user/{userID}:
+    x-controller: character
     post:
+      x-operation: addNewCharacter
       tags:
       - 'character'
       summary: 'Add a new character to a specific user'
@@ -121,16 +137,23 @@ paths:
         400:
           description: 'Invalid userID'
   /user:
+    x-controller: user
     get:
+      x-operation: getAllUsers
       tags:
       - 'user'
       summary: 'Returns all the users'
       responses:
         200:
           description: 'All of the users'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
     post:
+      x-operation: addNewUser
       tags:
       - 'user'
       summary: 'Add a new user'
@@ -163,8 +186,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
   /user/{userID}:
+    x-controller: user
     parameters: 
     - name: 'userID'
       in: 'path'
@@ -175,16 +199,22 @@ paths:
         format: int64
         minimum: 1
     get:
+      x-operation: getOneUser
       tags:
       - 'user'
       summary: 'get information about a specific user'
       description: 'get information about a specific user'
       responses:
-        201:
-          description: 'user returned'
+        200:
+          description: 'User returned'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
         400:
           description: 'Invalid userID'
     delete:
+      x-operation: deleteOneUser
       tags:
       - 'user'
       summary: 'Deletes a user'
@@ -192,8 +222,9 @@ paths:
         200:
           description: 'You deleted the user'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
     put:
+      x-operation: updateOneUser
       tags:
       - 'user'
       summary: 'Updates an user by ID'
@@ -218,9 +249,11 @@ paths:
         200:
           description: 'You updated the user'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
   /bag/{characterID}:
+    x-controller: bag
     get:
+      x-operation: getOneBag
       tags:
       - 'bag'
       summary: 'Returns the bag by character ID'
@@ -236,9 +269,14 @@ paths:
       responses:
         200:
           description: 'All of the items the character has'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bag'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
   /bag/{characterID}/item/{itemID}:
+    x-controller: bag
     parameters:
     - name: 'characterID'
       in: 'path'
@@ -257,6 +295,7 @@ paths:
         format: int64
         minimum: 1
     post:
+      x-operation: addItemToBag
       tags:
       - 'bag'
       summary: 'Add a new item to bag'
@@ -283,8 +322,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Bag'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
     delete:
+      x-operation: deleteItemFromBag
       tags:
       - 'bag'
       summary: 'Deletes a item from a bag by character and item id'
@@ -292,18 +332,25 @@ paths:
         200:
           description: 'You deleted the item'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
   /questions:
+    x-controller: question
     get:
+      x-operation: getAllQuestions
       tags:
       - 'question'
       summary: 'Returns all the questions'
       responses:
         200:
-          description: 'all of the questions'
+          description: 'All of the questions'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Question'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
     post:
+      x-operation: addNewQuestion
       tags:
       - 'question'
       summary: 'Add a new question'
@@ -328,8 +375,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Question'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
   /questions/{questionID}:
+    x-controller: question
     parameters:
     - name: 'questionID'
       in: 'path'
@@ -340,6 +388,7 @@ paths:
         format: int64
         minimum: 1
     delete:
+      x-operation: deleteOneQuestion
       tags:
       - 'question'
       summary: 'Deletes a question'
@@ -347,8 +396,9 @@ paths:
         200:
           description: 'You deleted the question'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
     put:
+      x-operation: updateOneQuestion
       tags:
       - 'question'
       summary: 'Updates an question by ID'
@@ -367,9 +417,11 @@ paths:
         200:
           description: 'You updated the question'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
   /answer:
+    x-controller: answer
     get:
+      x-operation: getAllAnswers
       tags:
       - 'answer'
       summary: 'Returns all the answers'
@@ -384,9 +436,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Answer'
         400:
-          description: 'Invalid status value'
-  /answer/{questionID}:
+          description: 'Invalid'
+  /answer/question/{questionID}:
+    x-controller: answer
     post:
+      x-operation: addNewAnswer
       tags:
       - 'answer'
       summary: 'Add a new answer to a question'
@@ -406,6 +460,7 @@ paths:
         400:
           description: 'Invalid questionID'
   /answer/{answerID}:
+    x-controller: answer
     parameters:
     - name: 'answerID'
       in: 'path'
@@ -416,6 +471,7 @@ paths:
         format: int64
         minimum: 1
     delete:
+      x-operation: deleteAnswer
       tags:
       - 'answer'
       summary: 'Deletes an answer'
@@ -423,8 +479,9 @@ paths:
         200:
           description: 'You deleted the question'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
     put:
+      x-operation: updateAnswer
       tags:
       - 'answer'
       summary: 'Updates an answer by ID'
@@ -443,18 +500,25 @@ paths:
         200:
           description: 'You updated the answer'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
   /item:
+    x-controller: item
     get:
+      x-operation: getAllItems
       tags:
       - 'item'
       summary: 'Returns all the items'
       responses:
         200:
           description: 'All of the items'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
     post:
+      x-operation: addNewItem
       tags:
       - 'item'
       summary: 'Add a new item'
@@ -482,7 +546,7 @@ paths:
                   type: boolean
       responses:
         201:
-          description: 'item created'
+          description: 'Item created'
           headers:
             Location:
               $ref: '#/components/headers/PostLocation'
@@ -493,6 +557,7 @@ paths:
         400:
           description: 'Invalid questionID'
   /item/{itemID}:
+    x-controller: item
     parameters:
     - name: 'itemID'
       in: 'path'
@@ -503,6 +568,7 @@ paths:
         format: int64
         minimum: 1
     delete:
+      x-operation: deleteItem
       tags:
       - 'item'
       summary: 'Deletes an item'
@@ -510,8 +576,9 @@ paths:
         200:
           description: 'You deleted the item'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
     put:
+      x-operation: updateItem
       tags:
       - 'item'
       summary: 'Updates an item by ID'
@@ -540,7 +607,7 @@ paths:
         200:
           description: 'You updated the answer'
         400:
-          description: 'Invalid status value'
+          description: 'Invalid'
 components:
   headers:
     PostLocation:
@@ -560,7 +627,9 @@ components:
       properties:
         id:
           description: A unique identifier.
-          type: string
+          type: integer
+          format: int64
+          minimum: 1
         email:
           description: The user's email
           type: string
@@ -572,11 +641,14 @@ components:
           type: string
         currentQuestion:
           description: The current question the user's character is on
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         character:
           description: The ID of the character the user makes
-          type: number
-          default: null
+          type: integer
+          format: int64
+          minimum: 1
     Character:
       type: object
       required:
@@ -590,29 +662,37 @@ components:
       properties:
         id:
           description: A unique identifier.
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         userId:
           description: The user's id that owns this character
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         name:
           description: The name of the character
           type: string
         strength:
           description: The character's strength attribute
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         dexterity:
           description: The character's dexterity attribute
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         speech:
           description: The character's speech attribute
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         intelligence:
           description: The character's intelligence attribute
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
     Bag:
       type: object
       required:
@@ -622,13 +702,19 @@ components:
       properties:
         id:
           description: A unique identifier
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         characterId:
           description: The ID of the character who has this item
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         itemId:
           description: The ID of the item that the character has
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
     Question:
       type: object
       required:
@@ -637,7 +723,9 @@ components:
       properties:
         id:
           description: A unique identifier
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         questionText:
           description: The text of the question
           type: string
@@ -650,13 +738,17 @@ components:
       properties:
         id:
           description: A unique identifier
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         answer:
           description: The answer text
           type: string
         question:
           description: The question this answer relates to
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
     Item:
       type: object
       required:
@@ -671,29 +763,37 @@ components:
       properties:
         id:
           description: A unique identifier.
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         item:
           description: The item's name
           type: string
         question:
           description: The question this item is related to
-          type: number
+          type: integer
+          format: int64
+          minimum: 1
         strengthBuff:
           description: The strength buff for the item
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         dexterityBuff:
           description: The dexterity buff for the item
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         speechBuff:
           description: The speech buff for the item
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         intelligenceBuff:
           description: The intelligence buff for the item
-          type: number
-          default: 0
+          type: integer
+          format: int64
+          minimum: 0
         key:
           description: Tell if the item is a key or not
           type: boolean
